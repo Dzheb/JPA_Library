@@ -1,5 +1,7 @@
 package ru.dzheb.springdatajpa.api;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +15,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/reader")
-
+@Tag(name = "Reader")
 public class ReaderController {
     // dependency injection
     private final ReaderService readerService;
@@ -21,6 +23,8 @@ public class ReaderController {
 
 
     @GetMapping("/{id}")
+    @Operation(summary = "get a reader by id"
+            ,description = "Поиск читателя по идентификатору")
     public ResponseEntity<Reader> getBookName(@PathVariable long id) {
         //log.info("Получен запрос на выдачу: readerId = {}, bookId = {}", request.getReaderId(), request.getBookId());
         final Reader reader;
@@ -36,18 +40,24 @@ public class ReaderController {
     }
 
     @PostMapping
+    @Operation(summary = "add a reader to the library"
+            ,description = "Добавление читателя в библиотеку")
     public Long addReader(@RequestBody Reader reader) {
         return readerService.addReader(reader.getName());
 
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "delete reader by id"
+            ,description = "Удаление читателя по идентификатору")
     public String deleteReader(@PathVariable long id) {
         return readerService.deleteReader(id);
     }
 
     //
     @GetMapping("/{id}/issue")
+    @Operation(summary = "get books issued to the reader by Id"
+            ,description = "Получение книг выданных читателю")
     public ResponseEntity<List<Issue>> getBooksByReader(@PathVariable Long id) {
         final List<Issue> issuesReader;
         issuesReader = issuerService.getIssuesByReader(id);

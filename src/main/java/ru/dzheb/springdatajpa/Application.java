@@ -11,7 +11,22 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *
  * Замечание: базу данных можно использовать любую (h2, mysql, postgres).
  */
-
+// Семинар 6
+//1. Подключить OpenAPI 3 и swagger к проекту с
+//        библиоткой
+//        2. Описать все контроллеры, эндпоинты и
+//        возвращаемые тела с помощью аннотаций
+//        OpenAPI 3
+//        3. В качестве результата, необходимо
+//        прислать скриншот(ы) страницы swagger
+//        (с ручками)
+//
+//        Доп. задание (сдавать не нужно):
+//        придумать какие-то доменные сервисы
+//        (по типу библиотеки и заметок) и
+//        попытаться спроектировать его API.
+// http://localhost:9000/swagger-ui.html
+//    http://localhost:9000/v3/api-docs
 @SpringBootApplication
 public class Application {
 

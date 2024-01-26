@@ -1,5 +1,6 @@
 package ru.dzheb.springdatajpa.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,11 +9,14 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @Table(name = "readers")
+@Schema(name="Читатель")
 public class Reader {
     @Id
+    @Schema(name="Id читателя")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     @Column
+    @Schema(name="Имя читателя")
     private String name;
     public Reader (String name) {
         this.name = name;
