@@ -1,7 +1,12 @@
 package ru.dzheb.springdatajpa;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.ConfigurableApplicationContext;
+
 /**
  * Домашнее задание:
  * 1. Подключить базу данных к проекту "библиотека", который разрабатывали на прошлых уроках.
@@ -27,10 +32,18 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 //        попытаться спроектировать его API.
 // http://localhost:9000/swagger-ui.html
 //    http://localhost:9000/v3/api-docs
+@Slf4j
 @SpringBootApplication
+@RequiredArgsConstructor
+@EnableConfigurationProperties(ReaderProperties.class)
 public class Application {
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+
+        ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);
+        ReaderProperties readerProperties = context.getBean(ReaderProperties.class);
+        log.info("max-allowed-books: {}", readerProperties.getMaxAllowedBooks());
+        log.info("tags: {}", readerProperties.getTags());
+
     }
 }

@@ -1,8 +1,9 @@
 package ru.dzheb.springdatajpa.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.stereotype.Service;
+import ru.dzheb.springdatajpa.ReaderProperties;
 import ru.dzheb.springdatajpa.api.IssueRequest;
 import ru.dzheb.springdatajpa.model.Book;
 import ru.dzheb.springdatajpa.model.Issue;
@@ -22,10 +23,10 @@ public class IssuerServiceImpl implements IssuerService {
     private final BookService bookService;
     private final ReaderService readerService;
     private final IssueRepository issueRepository;
+    private final ReaderProperties readerProperties;
     //  application.max-allowed-books default = 1
-    @Value("${application.max-allowed-books:1}")
-    private int maxAllowedBooks;
-
+//    @Value("${application.max-allowed-books:1}")
+//    private int maxAllowedBooks;
 
     public Issue getIssueById(Long id) {
         return issueRepository.findById(id).orElse(null);
@@ -48,6 +49,7 @@ public class IssuerServiceImpl implements IssuerService {
                     "\"находится на руках");
         }
         // можно проверить, что у читателя нет книг на руках (или его лимит не превышает в Х книг)
+        int maxAllowedBooks = readerProperties.getMaxAllowedBooks();
         List<Issue> books = issueRepository.findByReaderId(request.getReaderId());
         if (books.size() < maxAllowedBooks) {
             Issue issue = new Issue(request.getBookId(), request.getReaderId());
