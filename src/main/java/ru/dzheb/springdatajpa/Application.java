@@ -6,6 +6,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ConfigurableApplicationContext;
+import ru.dzheb.springdatajpa.model.Role;
+import ru.dzheb.springdatajpa.model.User;
+import ru.dzheb.springdatajpa.repository.UserRepository;
+import ru.dzheb.springdatajpa.service.UserService;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Домашнее задание:
@@ -32,6 +40,15 @@ import org.springframework.context.ConfigurableApplicationContext;
 //        попытаться спроектировать его API.
 // http://localhost:9000/swagger-ui.html
 //    http://localhost:9000/v3/api-docs
+//**
+//        * 1. Для ресурсов, возвращающих HTML-страницы, реализовать авторизацию через login-форму.
+//        * Остальные /api ресурсы, возвращающие JSON, закрывать не нужно!
+//        * 2.1* Реализовать таблицы User(id, name, password) и Role(id, name), связанные многие ко многим
+//        * 2.2* Реализовать UserDetailsService, который предоставляет данные из БД (таблицы User и Role)
+//        * 3.3* Ресурсы выдачей (issue) доступны обладателям роли admin
+//        * 3.4* Ресурсы читателей (reader) доступны всем обладателям роли reader
+//        * 3.5* Ресурсы книг (books) доступны всем авторизованным пользователям
+//        */
 @Slf4j
 @SpringBootApplication
 @RequiredArgsConstructor
@@ -44,6 +61,38 @@ public class Application {
         ReaderProperties readerProperties = context.getBean(ReaderProperties.class);
         log.info("max-allowed-books: {}", readerProperties.getMaxAllowedBooks());
         log.info("tags: {}", readerProperties.getTags());
+        // Инициализация пользователей с ролями
+		//UserRepository userRepository = context.getBean(UserRepository.class);
+		//userRepository.save(createReader());
+		//userRepository.save(createAdmin());
+//        Проверка наличия админв в базе
+        UserService userService = context.getBean(UserService.class);
+        System.out.println(userService.getUserByLogin("admin"));
+    }
+    private static User createReader() {
+        User reader = new User();
+        reader.setLogin("reader1");
+        reader.setPassword("reader1");
+        Role role = new Role();
+        role.setRole("reader");
+        List<Role> roles = Collections.singletonList(role);
+        reader.setRoles(roles);
+        return reader;
+    }
+
+    private static User createAdmin() {
+        User admin = new User();
+        admin.setLogin("admin");
+        admin.setPassword("admin");
+        Role role1 = new Role();
+        role1.setRole("admin");
+        Role role2 = new Role();
+        role2.setRole("reader");
+        List<Role> roles = new ArrayList<>();
+        roles.add(role1);
+        roles.add(role2);
+        admin.setRoles(roles);
+        return admin;
 
     }
 }

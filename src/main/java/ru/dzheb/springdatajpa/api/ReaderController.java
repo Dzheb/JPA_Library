@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/reader")
+@RequestMapping("/api/reader")
 @Tag(name = "Reader")
 public class ReaderController {
     // dependency injection

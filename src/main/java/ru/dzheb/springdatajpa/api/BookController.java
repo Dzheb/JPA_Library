@@ -15,7 +15,7 @@ import ru.dzheb.springdatajpa.service.BookService;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/book")
+@RequestMapping("/api/book")
 @Tag(name = "Book")
 public class BookController {
     // dependency injection
