@@ -25,5 +25,9 @@ public class Reader {
     public String toString() {
         return this.id + ".   " + '"' + this.name + '"';
     }
-
+    public static Reader ofName(String name) {
+        Reader reader = new Reader();
+        reader.setName(name);
+        return reader;
+    }
 }

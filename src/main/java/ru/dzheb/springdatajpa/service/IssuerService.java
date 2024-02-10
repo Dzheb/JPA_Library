@@ -6,6 +6,7 @@ import ru.dzheb.springdatajpa.model.Issue;
 import ru.dzheb.springdatajpa.model.IssueUI;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IssuerService {
 
@@ -17,7 +18,7 @@ public interface IssuerService {
 
     List<Issue> getIssuesByReader(Long id);
 
-    List<Book> getIssuesByReaderUI(Long id);
+    List <Book> getIssuesByReaderUI(Long id);
 
 
     List<IssueUI> allIssues();

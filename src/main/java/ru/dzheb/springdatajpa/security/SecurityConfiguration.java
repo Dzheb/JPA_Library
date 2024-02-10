@@ -26,9 +26,13 @@ public class SecurityConfiguration {
                                 .requestMatchers("/ui/issues/**").hasAuthority("admin")
                                 .requestMatchers("/ui/books/**").authenticated()
                                 .requestMatchers("/api/**").permitAll()
-                        .anyRequest().denyAll()
+//                        .anyRequest().denyAll()
+                                .anyRequest().permitAll()
                 )
                 .formLogin(Customizer.withDefaults())
+//                .formLogin()
+ //       https://docs.spring.io/spring-security/site/docs/5.5.4/guides/form-javaconfig.html
+//                .loginPage("/login")
                 .build();
     }
 }

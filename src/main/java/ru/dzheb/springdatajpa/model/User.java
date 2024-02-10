@@ -22,7 +22,7 @@ public class User {
     @Column(name = "password")
     private String password;
 
-
+// https://www.baeldung.com/jpa-entity-graph
 @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 @JoinTable(name= "user_role",
         joinColumns = @JoinColumn(name="user_id"),

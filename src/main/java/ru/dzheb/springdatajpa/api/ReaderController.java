@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.dzheb.springdatajpa.model.Book;
 import ru.dzheb.springdatajpa.model.Issue;
 import ru.dzheb.springdatajpa.model.Reader;
 import ru.dzheb.springdatajpa.service.IssuerService;
@@ -21,7 +22,11 @@ public class ReaderController {
     private final ReaderService readerService;
     private final IssuerService issuerService;
 
+    @GetMapping
+    public List<Reader> allReaders() {
 
+        return readerService.allReaders();
+    }
     @GetMapping("/{id}")
     @Operation(summary = "get a reader by id"
             ,description = "Поиск читателя по идентификатору")

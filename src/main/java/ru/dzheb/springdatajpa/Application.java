@@ -6,6 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import ru.dzheb.springdatajpa.model.Role;
 import ru.dzheb.springdatajpa.model.User;
 import ru.dzheb.springdatajpa.repository.UserRepository;
@@ -56,7 +57,6 @@ import java.util.List;
 public class Application {
 
     public static void main(String[] args) {
-
         ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);
         ReaderProperties readerProperties = context.getBean(ReaderProperties.class);
         log.info("max-allowed-books: {}", readerProperties.getMaxAllowedBooks());

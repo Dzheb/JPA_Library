@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.dzheb.springdatajpa.service.BookService;
+import ru.dzheb.springdatajpa.service.BookServiceImpl;
 import ru.dzheb.springdatajpa.service.IssuerService;
 import ru.dzheb.springdatajpa.service.ReaderService;
 
@@ -14,7 +15,7 @@ import ru.dzheb.springdatajpa.service.ReaderService;
 @RequiredArgsConstructor
 @RequestMapping("/ui")
 public class UIController {
-    private final BookService bookService;
+    private final BookServiceImpl bookService;
     private final ReaderService readerService;
     private final IssuerService issuerService;
 

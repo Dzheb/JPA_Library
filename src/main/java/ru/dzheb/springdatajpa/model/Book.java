@@ -28,4 +28,9 @@ public class Book {
     public String toString() {
         return this.id + ".   " + '"'+this.name+'"' ;
     }
+    public static Book ofName(String name) {
+        Book book = new Book();
+        book.setName(name);
+        return book;
+    }
 }
