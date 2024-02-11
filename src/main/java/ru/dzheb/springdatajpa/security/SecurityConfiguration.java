@@ -1,5 +1,6 @@
 package ru.dzheb.springdatajpa.security;
 
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -22,17 +23,19 @@ public class SecurityConfiguration {
 
         return httpSecurity
                 .authorizeHttpRequests(configurer -> configurer
-                                .requestMatchers("/ui/reader/**").hasAuthority("reader")
-                                .requestMatchers("/ui/issues/**").hasAuthority("admin")
-                                .requestMatchers("/ui/books/**").authenticated()
-                                .requestMatchers("/api/**").permitAll()
-//                        .anyRequest().denyAll()
-                                .anyRequest().permitAll()
-                )
+                        //.csrf((csrf) -> csrf.ignoringRequestMatchers("/api/v1/**"));
+                        .requestMatchers("/api/v1/").permitAll()
+                        .requestMatchers("/ui/reader/**").hasAuthority("reader")
+                        .requestMatchers("/ui/issues/**").hasAuthority("admin")
+                        .requestMatchers("/ui/books/**").authenticated()
+                        .requestMatchers("/api/**").permitAll()
+//                              .anyRequest().denyAll()
+                        .anyRequest().permitAll())
                 .formLogin(Customizer.withDefaults())
-//                .formLogin()
- //       https://docs.spring.io/spring-security/site/docs/5.5.4/guides/form-javaconfig.html
-//                .loginPage("/login")
+                .csrf(AbstractHttpConfigurer::disable)
                 .build();
+//                .formLogin()
+//       https://docs.spring.io/spring-security/site/docs/5.5.4/guides/form-javaconfig.html
+//                .loginPage("/login")
     }
 }

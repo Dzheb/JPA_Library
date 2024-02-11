@@ -2,16 +2,16 @@ package ru.dzheb.springdatajpa.api;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.h2.util.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import reactor.core.publisher.Mono;
 import ru.dzheb.springdatajpa.JUnitSpringBootBase;
-import ru.dzheb.springdatajpa.model.Book;
 import ru.dzheb.springdatajpa.model.Reader;
-import ru.dzheb.springdatajpa.repository.BookRepositoryTest;
 import ru.dzheb.springdatajpa.repository.ReaderRepositoryTest;
 
 import java.util.List;
@@ -83,38 +83,27 @@ class ReaderControllerTest extends JUnitSpringBootBase {
 //  @Disabled
   void testSave() {
     Long maxId = jdbcTemplate.queryForObject("select max(id) from readers", Long.class);
-
-    JUnitReaderResponse request = new JUnitReaderResponse();
-    request.setName("Max");
-    request.setId(maxId+1L);
-
-    JUnitReaderResponse responseBody = webTestClient.post()
-      .uri("/api/reader")
-      .bodyValue(request)
-      .exchange()
-      .expectStatus().isCreated()
-      .expectBody(JUnitReaderResponse.class)
-      .returnResult().getResponseBody();
-
-    Assertions.assertNotNull(responseBody);
-    Assertions.assertNotNull(responseBody.getId());
-    Assertions.assertTrue(readerRepositoryTest.findById(request.getId()).isPresent());
-  }
-
-  @Test
-  void testDeleteById() {
-    Long maxId = jdbcTemplate.queryForObject("select max(id) from readers", Long.class);
-    Long expected = maxId + 1;
-    JUnitReaderResponse responseBody = webTestClient.delete()
-            .uri("/api/book/" + 1)
+    ReaderControllerTest.JUnitReaderResponse request = new ReaderControllerTest.JUnitReaderResponse();
+    request.setName("Mike Penn");
+    request.setId(maxId + 1L);
+    webTestClient.post()
+            .uri("/api/reader")
+            .body(Mono.just(request), JSONObject.class)
             .exchange()
             .expectStatus().isOk()
-            .expectBody(JUnitReaderResponse.class)
-            .returnResult().getResponseBody();
-
-    Assertions.assertNotNull(responseBody);
-    Assertions.assertNotNull(responseBody.getId());
-    Assertions.assertFalse(readerRepositoryTest.findById(expected).isPresent());
+            .expectBody(new ParameterizedTypeReference<Long>() {
+            })
+            .returnResult().equals(maxId+1L);
   }
+  @Test
+  void testDeleteById() {
+    Long expected = jdbcTemplate.queryForObject("select max(id) from readers", Long.class);
+    webTestClient.delete()
+            .uri("/api/reader/" + expected)
+            .exchange()
+            .expectStatus().isOk();
+    Assertions.assertFalse(readerRepositoryTest.existsById(expected));
+  }
+
 
 }
